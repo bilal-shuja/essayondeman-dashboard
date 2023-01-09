@@ -1,11 +1,11 @@
-import React, {useState,useEffect} from 'react';
 import WindowDimension from '../WindowDimension';
+import React, {useState,useEffect} from 'react';
+import "react-toastify/dist/ReactToastify.css";
 import { AsyncStorage } from 'AsyncStorage';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {Link } from 'react-router-dom';
+import {Link }from'react-router-dom';
 import axios from 'axios';
-import BaseUrl from './GettingURLTwo.js';
+
 const PageContentTable = () => {
     const { height, width } = WindowDimension();
   
@@ -28,20 +28,20 @@ const PageContentTable = () => {
     }
   
     const gettingBlogs = ()=>{
-      axios.get(`${BaseUrl}fetchHomepage`)
+      axios.get(`${process.env.REACT_APP_BASE_URL}fetchHomepage`)
       .then((res)=>{
         setGetBlogs(res.data.data)
   
       })
       .catch((error)=>{
-        console.log(error);
+        toast.warning("Error Occured !")
       })
     }
   const deleteBlogs = (id)=>{
     const delObj = {
       id:id
     }
-    axios.post(`${BaseUrl}homepage/deletehomepage`,delObj,{
+    axios.post(`${process.env.REACT_APP_BASE_URL}homepage/deletehomepage`,delObj,{
       headers:{
         Authorization:paringToken
       }
@@ -51,10 +51,10 @@ const PageContentTable = () => {
       setInterval(() => {
         window.location.reload(true)
       }, 1000);
-      console.log(res.data)
     })
     .catch((error)=>{
-      console.log(error)
+      toast.warning("Error Occured !")
+
     })
   }
   

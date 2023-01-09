@@ -1,10 +1,8 @@
+import WindowDimension from '../WindowDimension';
 import React,{useState, useEffect} from 'react';
-import WindowDimension from './WindowDimension.jsx';
+import Avatar from '../../Images/Avatar.png';
+import Rating from '../../Images/Rating.svg';
 import { AsyncStorage } from 'AsyncStorage';
-import Rating from '../Images/Rating.svg';
-import BaseURL from './GettingURL.js';
-import Avatar from '../Images/Avatar.png';
-// import Janna from '../Images/profile.jpg';
 import axios from 'axios';
 
 
@@ -15,20 +13,17 @@ const UserProfile = () => {
   const SetLocalLogin= async ()=>{
     try{
       let id = await AsyncStorage.getItem('id');
-
-      // let parsed = JSON.parse(userTOKEN);
-
       if(id !== null ){      
         getUserProfile(id)
       }
     }catch{
-        return null;
+      return null;
     }
-  
+    
   }
- 
+  
     const getUserProfile = (id)=>{
-    axios.get(`${BaseURL}fetchusers/${id}`)
+      axios.get(`${process.env.REACT_APP_BASE_URL}fetchusers/${id}`)
     .then(res =>{
       setUserName(res.data.username);
     })
@@ -36,6 +31,7 @@ const UserProfile = () => {
       console.log(error);
     })
   }
+
 
 
   useEffect(() => {
@@ -157,36 +153,7 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-        {/* list and filter start */}
-        {/* <div className="card">
-          <div className="card-body border-bottom">
-            <h4 className="card-title">Search &amp; Filter</h4>
-            <div className="row">
-              <div className="col-md-4 user_role" />
-              <div className="col-md-4 user_plan" />
-              <div className="col-md-4 user_status" />
-            </div>
-          </div>
-          <div className="card-datatable table-responsive pt-0">
-            <table className="user-list-table table">
-              <thead className="table-light">
-                <tr>
-                  <th />
-                  <th>Name</th>
-                  <th>Role</th>
-                  <th>Plan</th>
-                  <th>Billing</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              
-            </table>
-          </div>
        
-        </div> */}
-        {/* list and filter end */}
-
        {/* Hoverable rows start */}
 <div className="row" id="table-hover-row">
   <div className="col-12">

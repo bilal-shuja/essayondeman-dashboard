@@ -1,10 +1,9 @@
-import React,{useState} from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GettingToken from '../GettingToken.js';
-import BaseUrl from './GettingURLTwo.js';
+import GettingToken from './GettingToken.js';
+import { toast } from "react-toastify";
+import React,{useState} from 'react';
+import axios from 'axios';
 
 const UpdateFaq = () => {
     const token = GettingToken();
@@ -35,7 +34,7 @@ const UpdateFaq = () => {
           answer:faqDetails.Answer,
           category:category
         }
-        axios.post(`${BaseUrl}faqs/updatefaq`,faqSubmit,{
+        axios.post(`${process.env.REACT_APP_BASE_URL}faqs/updatefaq`,faqSubmit,{
           headers:{
             Authorization:token
           }
@@ -51,7 +50,6 @@ const UpdateFaq = () => {
         .catch(
           error =>{
             toast.warning("Error Occured !")
-            console.log(error)
           }
         )
     

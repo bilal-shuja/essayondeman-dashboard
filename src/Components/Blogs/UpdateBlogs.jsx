@@ -1,14 +1,13 @@
-import React,{useState} from 'react';
-import {Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import GettingToken from '../GettingToken.js';
-import BaseUrl from './GettingURLTwo.js';
-import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw } from "draft-js";
+import {Link, useLocation } from 'react-router-dom';
+import "react-toastify/dist/ReactToastify.css";
+import GettingToken from './GettingToken.js';
+import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from 'draftjs-to-html';
+import { toast } from "react-toastify";
+import React,{useState} from 'react';
+import axios from 'axios';
 
 const UpdateBlogs = () => {
     const location = useLocation();
@@ -27,28 +26,7 @@ const UpdateBlogs = () => {
     const inputHandler = (e) => {
       setBlogDetails({ ...blogDetails, [e.target.name]: e.target.value });
     };
-    // const uploadImage = async (e)=>{
-    //     const file =e.target.files[0]; 
-    //     const base64 = await convertBase64(file);
-    //     setProfileImage(base64);
-    //   }
-    
-    
-    //   const convertBase64 = (file)=>{
-    //       return new Promise((resolve,reject)=>{
-    //         const fileReader = new FileReader();
-    //         fileReader.readAsDataURL(file);
-    
-    //         fileReader.onload= ()=>{
-    //           resolve(fileReader.result)
-    //         };
-            
-    //         fileReader.onerror=(error)=>{
-    //           reject(error)
-    //         };
-    
-    //         })
-    //   }
+
       const blogContent = draftToHtml(convertToRaw(editorState.getCurrentContent()))
 
       const updateBlogs = ()=>{
@@ -61,7 +39,7 @@ const UpdateBlogs = () => {
         formdata.append("content", blogContent);
         formdata.append("image", profileImage);
 
-        axios.post(`${BaseUrl}updateblog/${ID}`,formdata)
+        axios.post(`${process.env.REACT_APP_BASE_URL}updateblog/${ID}`,formdata)
         .then(res =>{
           toast.info("Blog Updated!")
           setInterval(() => {
@@ -72,7 +50,6 @@ const UpdateBlogs = () => {
         .catch(
           error =>{
             toast.warning("Error Occured !")
-            console.log(error)
           }
         )
     

@@ -1,14 +1,11 @@
 import React, {useState,useEffect} from 'react';
-import WindowDimension from '../WindowDimension';
+import "react-toastify/dist/ReactToastify.css";
 import { AsyncStorage } from 'AsyncStorage';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {Link } from 'react-router-dom';
 import axios from 'axios';
-import BaseUrl from './GettingURL.js';
 
 const WritersContentTable = () => {
-    const { height, width } = WindowDimension();
   
     const[getWriters, setWriters] = useState([])   
      const[paringToken ,setParsingToken] = useState()
@@ -30,7 +27,7 @@ const WritersContentTable = () => {
       }
 
       const gettingWriters = (token)=>{
-        axios.get(`${BaseUrl}writercontent/getwritercontent`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}writercontent/getwritercontent`,{
           headers:{
             Authorization:token
           }
@@ -40,7 +37,7 @@ const WritersContentTable = () => {
     
         })
         .catch((error)=>{
-          console.log(error);
+          toast.warning("Error Occured !")
         })
       }
 
@@ -48,7 +45,7 @@ const WritersContentTable = () => {
     const delObj = {
       id:id
     }
-    axios.post(`${BaseUrl}writercontent/deletewritercontent`,delObj,{
+    axios.post(`${process.env.REACT_APP_BASE_URL}writercontent/deletewritercontent`,delObj,{
       headers:{
         Authorization:paringToken
       }
@@ -58,10 +55,10 @@ const WritersContentTable = () => {
       setInterval(() => {
         window.location.reload(true)
       }, 1000);
-      console.log(res.data)
     })
     .catch((error)=>{
-      console.log(error)
+      toast.warning("Error Occured !")
+
     })
   }
   

@@ -1,10 +1,9 @@
-import React,{useState} from 'react';
-import {Link } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GettingToken from '../GettingToken.js';
-import BaseUrl from './GettingURLTwo.js';
+import GettingToken from './GettingToken.js';
+import {Link } from 'react-router-dom';
+import { toast } from "react-toastify";
+import React,{useState} from 'react';
+import axios from 'axios';
 
 const FaqManageForm = () => {
   const token = GettingToken();
@@ -31,7 +30,7 @@ const FaqManageForm = () => {
           answer:faqDetails.Answer,
           category:category
         }
-        axios.post(`${BaseUrl}faqs/addfaq`,faqSubmit,{
+        axios.post(`${process.env.REACT_APP_BASE_URL}faqs/addfaq`,faqSubmit,{
           headers:{
             Authorization:token
           }
@@ -53,7 +52,6 @@ const FaqManageForm = () => {
         .catch(
           error =>{
             toast.warning("Error Occured !")
-            console.log(error)
           }
         )
     

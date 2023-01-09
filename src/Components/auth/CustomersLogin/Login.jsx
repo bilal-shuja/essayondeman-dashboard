@@ -1,10 +1,10 @@
-import React,{useState} from 'react';
-import {Link} from 'react-router-dom';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AsyncStorage } from 'AsyncStorage';
-import BaseUrl from './GettingURL.js';
+import { toast } from "react-toastify";
+import {Link} from 'react-router-dom';
+import React,{useState} from 'react';
 import axios from 'axios';
+
 toast.configure();
 const Login = () => {
 
@@ -17,7 +17,6 @@ const Login = () => {
   const inputHandler = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
   };
-
   const submit = (e)=>{
     e.preventDefault()
 
@@ -25,7 +24,7 @@ const Login = () => {
       email:login.email,
       password:login.password
     }
-    axios.post(`${BaseUrl}login`,userObj)
+    axios.post(`${process.env.REACT_APP_BASE_URL}login`,userObj)
     .then(res =>{
             AsyncStorage.setItem('logIN',JSON.stringify(true));
 
@@ -33,28 +32,23 @@ const Login = () => {
             AsyncStorage.setItem('password',JSON.stringify(login.password));
             AsyncStorage.setItem('id',JSON.stringify(res.data.user.id));
 
-            // AsyncStorage.setItem('token',JSON.stringify(res.data.data.token));
-
             toast.info("Successfully logged In!");
             setInterval(() => {
-              
               window.location.reload(true);
             }, 1500);
-           
+
+            // setLogin({
+            //   email:'',
+            // password:''
+            // });
     }
     )
     .catch(
       error =>{
         toast.warning("Wrong Credentials")
-        console.log(error)
       }
     )
 
-
-    setLogin({
-      email:'',
-    password:''
-    });
   }
 
   

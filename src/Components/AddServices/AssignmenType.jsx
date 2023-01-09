@@ -1,10 +1,10 @@
-import React,{useState} from 'react';
-import {Link} from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GettingToken from '../GettingToken.js';
-import BaseUrl from './GettingURLTwo.js';
+import GettingToken from './GettingToken.js';
+import { toast } from "react-toastify";
+import {Link} from 'react-router-dom';
+import React,{useState} from 'react';
+import axios from 'axios';
+
 const AssignmenType = () => {
     const token = GettingToken();
     const [services, setServices] = useState();
@@ -14,7 +14,7 @@ const AssignmenType = () => {
             role_id:1,
           name:services
         }
-        axios.post(`${BaseUrl}assignmenttype/addassignmenttype`,serviceObj,{
+        axios.post(`${process.env.REACT_APP_BASE_URL}assignmenttype/addassignmenttype`,serviceObj,{
         headers:{
           Authorization:token
         }
@@ -31,7 +31,6 @@ const AssignmenType = () => {
       .catch(
         error =>{
           toast.warning("Error Occured !")
-          console.log(error)
         }
       )
       

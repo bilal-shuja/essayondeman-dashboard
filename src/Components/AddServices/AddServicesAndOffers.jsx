@@ -1,9 +1,8 @@
-import React,{useState, useEffect} from 'react';
 import {Link,useLocation} from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
+import React,{useState, useEffect} from 'react';
 import "react-toastify/dist/ReactToastify.css";
-import BaseUrl from './GettingURLTwo.js';
+import { toast } from "react-toastify";
+import axios from 'axios';
 
 const AddServicesAndOffers = () => {
     const location = useLocation();
@@ -12,13 +11,8 @@ const AddServicesAndOffers = () => {
       const headers = Headers;
       const input = Input;
 
-
-
-
-
-    const [services, setServices] = useState();
-
-  const[url , setURL] = useState();
+      const[url , setURL] = useState();
+      const [services, setServices] = useState();
 
   
 
@@ -26,7 +20,7 @@ const AddServicesAndOffers = () => {
         const serviceObj = {
           name:services
         }
-        axios.post(`${BaseUrl}${url}`,serviceObj)
+        axios.post(`${process.env.REACT_APP_BASE_URL}${url}`,serviceObj)
       .then(res =>{
           toast.info("Service Added!")
         setInterval(() => {
@@ -38,7 +32,6 @@ const AddServicesAndOffers = () => {
       .catch(
         error =>{
           toast.warning("Error Occured !")
-          console.log(error)
         }
       )
       

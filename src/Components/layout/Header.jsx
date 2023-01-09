@@ -1,8 +1,7 @@
+import Notifi from '../../Images/NotifiCircle.svg';
 import React,{useState, useEffect} from 'react';
+import Avatar from '../../Images/Avatar.png';
 import { AsyncStorage } from 'AsyncStorage';
-import Notifi from '../Images/NotifiCircle.svg';
-import Avatar from '../Images/Avatar.png';
-import BaseURL from './GettingURL.js';
 import axios from 'axios';
 
 
@@ -16,9 +15,6 @@ const Header = () => {
   const SetLocalLogin= async ()=>{
     try{
       let id = await AsyncStorage.getItem('id');
-
-      // let parsed = JSON.parse(userTOKEN);
-
       if(id !== null){      
         getUserProfile(id)
       }
@@ -28,7 +24,7 @@ const Header = () => {
   }
   const getUserProfile = (id)=>{
    
-    axios.get(`${BaseURL}fetchusers/${id}`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}fetchusers/${id}`)
     .then(res =>{
       setUserName(res.data.username);
     })

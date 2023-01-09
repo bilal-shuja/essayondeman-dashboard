@@ -1,25 +1,26 @@
-import React,{useState,useEffect} from 'react';
-import {Link, useLocation} from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import GettingToken from '../GettingToken.js';
-import BaseUrl from './GettingURLTwo.js';
-import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw } from "draft-js";
-import draftToHtml from 'draftjs-to-html';
+import {Link, useLocation} from 'react-router-dom';
+import "react-toastify/dist/ReactToastify.css";
+import React,{useState,useEffect} from 'react';
+import { Editor } from "react-draft-wysiwyg";
 import { AsyncStorage } from 'AsyncStorage';
+import draftToHtml from 'draftjs-to-html';
+import { toast } from "react-toastify";
+import axios from 'axios';
+
+
 const UpdateFaqWeb = () => {
 
-  const [category,setCategory] = useState('1');
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const[getTopServices, setTopServices] = useState([])
-  const [serve_name,setServeName]=useState("");
-  const[token , setToken] = useState()
+    const [category,setCategory] = useState('1');
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const[getTopServices, setTopServices] = useState([])
+    const [serve_name,setServeName]=useState("");
+    const[token , setToken] = useState()
     const location = useLocation();
     const { id } = location.state;
     const ID = id;
+
     const GetToken= async ()=>{
       try{
         let token = await AsyncStorage.getItem('token');
@@ -46,7 +47,7 @@ const UpdateFaqWeb = () => {
     const getServices = (t)=>{
       
       
-      axios.get(`${BaseUrl}topservices/gettopservices`,{
+      axios.get(`${process.env.REACT_APP_BASE_URL}topservices/gettopservices`,{
         headers:{
           Authorization:t
         }
@@ -56,7 +57,7 @@ const UpdateFaqWeb = () => {
   
       })
       .catch((error)=>{
-        console.log(error)
+        toast.warning("Error Occured !")
       })
 
 
@@ -64,7 +65,7 @@ const UpdateFaqWeb = () => {
 
     const getAllServices = (e)=>{
       if(e === "1"){
-        axios.get(`${BaseUrl}topservices/gettopservices`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}topservices/gettopservices`,{
           headers:{
             Authorization:token
           }
@@ -74,14 +75,14 @@ const UpdateFaqWeb = () => {
     
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
         })
   
 
       }
       
       else if(e === "2"){
-        axios.get(`${BaseUrl}bottomservices/getbottomservices`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}bottomservices/getbottomservices`,{
           headers:{
             Authorization:token
           }
@@ -91,13 +92,13 @@ const UpdateFaqWeb = () => {
     
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
         })
   
       }
 
       else if(e === "3"){
-        axios.get(`${BaseUrl}offers/gettopoffers`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}offers/gettopoffers`,{
           headers:{
             Authorization:token
           }
@@ -112,7 +113,7 @@ const UpdateFaqWeb = () => {
       }
 
       else if(e === "4"){
-        axios.get(`${BaseUrl}offers/getbottomoffers`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}offers/getbottomoffers`,{
           headers:{
             Authorization:token
           }
@@ -122,7 +123,8 @@ const UpdateFaqWeb = () => {
     
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
+
         })
       }
       
@@ -148,7 +150,7 @@ const UpdateFaqWeb = () => {
           answer:faqWebContent,
           service_name:"main"
         }
-        axios.post(`${BaseUrl}updateFaqweb/${ID}`,faqSubmit)
+        axios.post(`${process.env.REACT_APP_BASE_URL}updateFaqweb/${ID}`,faqSubmit)
         .then(res =>{
           toast.info("Faq Updated!")
           setInterval(() => {
@@ -159,7 +161,6 @@ const UpdateFaqWeb = () => {
         .catch(
           error =>{
             toast.warning("Error Occured !")
-            console.log(error)
           }
         )
     

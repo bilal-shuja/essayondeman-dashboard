@@ -1,18 +1,17 @@
-import React, {useState,useEffect} from 'react';
 import WindowDimension from '../WindowDimension';
+import React, {useState,useEffect} from 'react';
+import "react-toastify/dist/ReactToastify.css";
 import { AsyncStorage } from 'AsyncStorage';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {Link } from 'react-router-dom';
 import axios from 'axios';
-import BaseUrl from './GettingURLTwo.js';
 
 const TopOfferTable = () => {
      
-    const { height, width } = WindowDimension();
-  
-  const[getTopOffer, setTopOffer] = useState([])
-  const[paringToken ,setParsingToken] = useState()
+  const { height, width } = WindowDimension();
+
+  const[getTopOffer, setTopOffer] = useState([]);
+  const[paringToken ,setParsingToken] = useState();
 
   const SetLocalLogin= async ()=>{
     try{
@@ -30,7 +29,7 @@ const TopOfferTable = () => {
   }
 
   const gettingTopOffer = (token)=>{
-    axios.get(`${BaseUrl}offers/gettopoffers`,{
+    axios.get(`${process.env.REACT_APP_BASE_URL}offers/gettopoffers`,{
       headers:{
         Authorization:token
       }
@@ -40,14 +39,15 @@ const TopOfferTable = () => {
 
     })
     .catch((error)=>{
-      console.log(error);
+      toast.warning("Error Occured !")
+
     })
   }
 const deleteTopOffer = (id)=>{
   const delObj = {
     id:id
   }
-  axios.post(`${BaseUrl}offers/deletetopoffer`,delObj,{
+  axios.post(`${process.env.REACT_APP_BASE_URL}offers/deletetopoffer`,delObj,{
     headers:{
       Authorization:paringToken
     }
@@ -57,10 +57,10 @@ const deleteTopOffer = (id)=>{
     setInterval(() => {
       window.location.reload(true)
     }, 1000);
-    console.log(res.data)
   })
   .catch((error)=>{
-    console.log(error)
+    toast.warning("Error Occured !")
+
   })
 }
 

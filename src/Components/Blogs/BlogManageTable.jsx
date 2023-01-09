@@ -1,11 +1,10 @@
-import React, {useState,useEffect} from 'react';
 import WindowDimension from '../WindowDimension';
+import React, {useState,useEffect} from 'react';
+import "react-toastify/dist/ReactToastify.css";
 import { AsyncStorage } from 'AsyncStorage';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {Link } from 'react-router-dom';
 import axios from 'axios';
-import BaseUrl from './GettingURLTwo.js';
 
 
 
@@ -23,7 +22,6 @@ const BlogManageTable = () => {
 
       if(parsed !== null){
       
-        gettingBlogs()
         setParsingToken(parsed)
       }
     }catch{
@@ -32,18 +30,17 @@ const BlogManageTable = () => {
   }
 
   const gettingBlogs = ()=>{
-    axios.get(`${BaseUrl}fetchblog`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}fetchblog`)
     .then((res)=>{
       setGetBlogs(res.data)
-
     })
     .catch((error)=>{
-      console.log(error);
+      toast.warning("Error Occured !")
     })
   }
 const deleteBlogs = (id)=>{
  
-  axios.post(`${BaseUrl}deleteblog/${id}`)
+  axios.post(`${process.env.REACT_APP_BASE_URL}deleteblog/${id}`)
   .then((res)=>{
     toast.error("Deleted Successfully")
     setInterval(() => {
@@ -51,12 +48,15 @@ const deleteBlogs = (id)=>{
     }, 1000);
   })
   .catch((error)=>{
-    console.log(error)
+    toast.warning("Error Occured !")
+
   })
 }
 
   useEffect(() => {
     SetLocalLogin()
+    gettingBlogs()
+
   }, [])
   
   

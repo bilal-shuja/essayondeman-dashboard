@@ -1,10 +1,9 @@
-import React,{useState,useEffect} from 'react';
-import {Link } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import React,{useState,useEffect} from 'react';
 import { AsyncStorage } from 'AsyncStorage';
-import BaseUrl from './GettingURL.js';
+import {Link } from 'react-router-dom';
+import { toast } from "react-toastify";
+import axios from 'axios';
 
 
 const AddWritersContent = () => {
@@ -41,7 +40,7 @@ const AddWritersContent = () => {
       const gettingWriter = (t)=>{
       
       
-        axios.get(`${BaseUrl}writer/getwriters`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}writer/getwriters`,{
           headers:{
             Authorization:t
           }
@@ -51,7 +50,7 @@ const AddWritersContent = () => {
     
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
         })
   
   
@@ -83,7 +82,7 @@ const AddWritersContent = () => {
 
       const getSubjectData = (e)=>{
         if(e === "OBS"){
-              axios.get(`${BaseUrl}assignmenttype/getassignmenttypes`,{
+              axios.get(`${process.env.REACT_APP_BASE_URL}assignmenttype/getassignmenttypes`,{
               headers:{
                 Authorization:token
               }
@@ -93,17 +92,17 @@ const AddWritersContent = () => {
         
             })
             .catch((error)=>{
-              console.log(error)
+              toast.warning("Error Occured !")
             })
         }
         else{
-          console.log("No type found")
+          toast.warning("No type found")
         }
 
       }
       const getOrderData = (e)=>{
         if(e === "OBT"){
-          axios.get(`${BaseUrl}contenttype/getcontenttypes`,{
+          axios.get(`${process.env.REACT_APP_BASE_URL}contenttype/getcontenttypes`,{
                     headers:{
                       Authorization:token
                     }
@@ -113,12 +112,13 @@ const AddWritersContent = () => {
               
                   })
                   .catch((error)=>{
-                    console.log(error)
+                    toast.warning("Error Occured !")
                   })
-        }
-        else{
-          console.log("No type found")
-        }
+                }
+
+              else{
+                toast.warning("No type found")
+              }
       }
     
 
@@ -136,7 +136,7 @@ const AddWritersContent = () => {
           progress_ratio:writerContent.progressRatio,
           progress_ratio_two:writerContent.progressRationTwo
         }
-        axios.post(`${BaseUrl}writercontent/addwritercontent`,writerContentObj,{
+        axios.post(`${process.env.REACT_APP_BASE_URL}writercontent/addwritercontent`,writerContentObj,{
           headers:{
             Authorization:token
           }
@@ -155,7 +155,6 @@ const AddWritersContent = () => {
         .catch(
           error =>{
             toast.warning("Error Occured !")
-            console.log(error)
           }
         )
     

@@ -1,11 +1,11 @@
-import React, {useState,useEffect} from 'react';
 import WindowDimension from '../WindowDimension';
+import React, {useState,useEffect} from 'react';
+import "react-toastify/dist/ReactToastify.css";
 import { AsyncStorage } from 'AsyncStorage';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {Link } from 'react-router-dom';
 import axios from 'axios';
-import BaseUrl from './GettingURLTwo.js';
+
 const ContentTypeTable = () => {
     const { height, width } = WindowDimension();
   
@@ -28,7 +28,7 @@ const ContentTypeTable = () => {
     }
   
     const gettingCotentType = (token)=>{
-      axios.get(`${BaseUrl}contenttype/getcontenttypes`,{
+      axios.get(`${process.env.REACT_APP_BASE_URL}contenttype/getcontenttypes`,{
         headers:{
           Authorization:token
         }
@@ -38,14 +38,15 @@ const ContentTypeTable = () => {
   
       })
       .catch((error)=>{
-        console.log(error);
+      toast.warning("Error Occured !")
+        
       })
     }
   const deleteBottomServices = (id)=>{
     const delObj = {
       id:id
     }
-    axios.post(`${BaseUrl}contenttype/deletecontenttype`,delObj,{
+    axios.post(`${process.env.REACT_APP_BASE_URL}contenttype/deletecontenttype`,delObj,{
       headers:{
         Authorization:paringToken
       }
@@ -55,10 +56,9 @@ const ContentTypeTable = () => {
       setInterval(() => {
         window.location.reload(true)
       }, 1000);
-      console.log(res.data)
     })
     .catch((error)=>{
-      console.log(error)
+      toast.warning("Error Occured !")
     })
   }
   

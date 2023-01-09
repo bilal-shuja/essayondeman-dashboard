@@ -1,18 +1,17 @@
-import React,{useState, useEffect} from 'react';
-import {Link } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import BaseUrl from './GettingURLTwo.js';
-import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw } from "draft-js";
-import draftToHtml from 'draftjs-to-html';
+import React,{useState, useEffect} from 'react';
+import "react-toastify/dist/ReactToastify.css";
+import { Editor } from "react-draft-wysiwyg";
 import { AsyncStorage } from 'AsyncStorage';
+import draftToHtml from 'draftjs-to-html';
+import { toast } from "react-toastify";
+import {Link } from 'react-router-dom';
+import axios from 'axios';
 
 const FaqWebForm = () => {
-    const [category,setCategory] = useState('1');
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [category,setCategory] = useState('1');
     const[getTopServices, setTopServices] = useState([])
     const [serve_name,setServeName]=useState("");
     const[token , setToken] = useState()
@@ -44,7 +43,7 @@ const FaqWebForm = () => {
     const getServices = (t)=>{
       
       
-      axios.get(`${BaseUrl}topservices/gettopservices`,{
+      axios.get(`${process.env.REACT_APP_BASE_URL}topservices/gettopservices`,{
         headers:{
           Authorization:t
         }
@@ -54,7 +53,8 @@ const FaqWebForm = () => {
   
       })
       .catch((error)=>{
-        console.log(error)
+        toast.warning("Error Occured !")
+
       })
 
 
@@ -62,7 +62,7 @@ const FaqWebForm = () => {
 
     const getAllServices = (e)=>{
       if(e === "1"){
-        axios.get(`${BaseUrl}topservices/gettopservices`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}topservices/gettopservices`,{
           headers:{
             Authorization:token
           }
@@ -72,14 +72,14 @@ const FaqWebForm = () => {
     
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
         })
   
 
       }
       
       else if(e === "2"){
-        axios.get(`${BaseUrl}bottomservices/getbottomservices`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}bottomservices/getbottomservices`,{
           headers:{
             Authorization:token
           }
@@ -89,13 +89,14 @@ const FaqWebForm = () => {
     
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
+
         })
   
       }
 
       else if(e === "3"){
-        axios.get(`${BaseUrl}offers/gettopoffers`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}offers/gettopoffers`,{
           headers:{
             Authorization:token
           }
@@ -105,12 +106,12 @@ const FaqWebForm = () => {
     
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
         })
       }
 
       else if(e === "4"){
-        axios.get(`${BaseUrl}offers/getbottomoffers`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}offers/getbottomoffers`,{
           headers:{
             Authorization:token
           }
@@ -120,7 +121,8 @@ const FaqWebForm = () => {
     
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
+
         })
       }
       
@@ -145,7 +147,7 @@ const FaqWebForm = () => {
             service_id:"1",
             service_name:"main"
           }
-          axios.post(`${BaseUrl}postFaqweb`,faqSubmit)
+          axios.post(`${process.env.REACT_APP_BASE_URL}postFaqweb`,faqSubmit)
           .then(res =>{
             toast.info("Faq Posted!")
             setInterval(() => {
@@ -156,7 +158,6 @@ const FaqWebForm = () => {
           .catch(
             error =>{
               toast.warning("Error Occured !")
-              console.log(error)
             }
           )
       

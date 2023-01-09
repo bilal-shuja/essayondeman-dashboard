@@ -1,11 +1,10 @@
-import React, {useState,useEffect} from 'react';
 import WindowDimension from '../WindowDimension';
-import { AsyncStorage } from 'AsyncStorage';
-import { toast } from "react-toastify";
+import React, {useState,useEffect} from 'react';
 import "react-toastify/dist/ReactToastify.css";
+import { AsyncStorage } from 'AsyncStorage';
 import {Link } from 'react-router-dom';
+import { toast } from "react-toastify";
 import axios from 'axios';
-import BaseUrl from './GettingURL.js';
 
 const WritersReviewTable = () => {
     const { height, width } = WindowDimension();
@@ -30,7 +29,7 @@ const WritersReviewTable = () => {
       }
 
       const gettingWriters = (token)=>{
-        axios.get(`${BaseUrl}writer/getwriters`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}writer/getwriters`,{
           headers:{
             Authorization:token
           }
@@ -40,7 +39,7 @@ const WritersReviewTable = () => {
     
         })
         .catch((error)=>{
-          console.log(error);
+          toast.warning("Error Occured !")
         })
       }
 
@@ -48,7 +47,7 @@ const WritersReviewTable = () => {
     const delObj = {
       id:id
     }
-    axios.post(`${BaseUrl}writer/deletewriter`,delObj,{
+    axios.post(`${process.env.REACT_APP_BASE_URL}writer/deletewriter`,delObj,{
       headers:{
         Authorization:paringToken
       }
@@ -58,10 +57,9 @@ const WritersReviewTable = () => {
       setInterval(() => {
         window.location.reload(true)
       }, 1000);
-      console.log(res.data)
     })
     .catch((error)=>{
-      console.log(error)
+      toast.warning("Error Occured !")
     })
   }
   
@@ -106,9 +104,9 @@ const WritersReviewTable = () => {
                         <Link to="/UpdateWriters" state={{id:items.id}} className="btn btn-primary btn-sm">
                         <i className="fa-solid fa-pen-to-square"></i>                          
                         </Link>
-                          <a onClick={()=>deleteWriters(items.id)}className={height<=900 && width<=500?"btn btn-danger btn-sm mt-1":"btn btn-danger btn-sm ms-1"}>
+                          <button onClick={()=>deleteWriters(items.id)}className={height<=900 && width<=500?"btn btn-danger btn-sm mt-1":"btn btn-danger btn-sm ms-1"}>
                           <i className="fa-solid fa-trash"></i>                         
-                           </a>
+                           </button>
                         </td>
                     </tr>
                         </>

@@ -1,11 +1,11 @@
 import React, {useState,useEffect} from 'react';
 import WindowDimension from '../WindowDimension';
+import "react-toastify/dist/ReactToastify.css";
 import { AsyncStorage } from 'AsyncStorage';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {Link } from 'react-router-dom';
 import axios from 'axios';
-import BaseUrl from './GettingURLTwo.js';
+
 const BottomOfferTable = () => {
     const { height, width } = WindowDimension();
   
@@ -28,7 +28,7 @@ const BottomOfferTable = () => {
     }
   
     const gettingTopOffer = (token)=>{
-      axios.get(`${BaseUrl}offers/getbottomoffers`,{
+      axios.get(`${process.env.REACT_APP_BASE_URL}offers/getbottomoffers`,{
         headers:{
           Authorization:token
         }
@@ -38,14 +38,14 @@ const BottomOfferTable = () => {
   
       })
       .catch((error)=>{
-        console.log(error);
+      toast.warning("Error Occured !")
       })
     }
   const deleteBottomServices = (id)=>{
     const delObj = {
       id:id
     }
-    axios.post(`${BaseUrl}offers/deletebottomoffer`,delObj,{
+    axios.post(`${process.env.REACT_APP_BASE_URL}offers/deletebottomoffer`,delObj,{
       headers:{
         Authorization:paringToken
       }
@@ -55,10 +55,9 @@ const BottomOfferTable = () => {
       setInterval(() => {
         window.location.reload(true)
       }, 1000);
-      console.log(res.data)
     })
     .catch((error)=>{
-      console.log(error)
+      toast.warning("Error Occured !")
     })
   }
   

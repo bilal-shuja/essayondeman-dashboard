@@ -1,11 +1,11 @@
-import React, {useState,useEffect} from 'react';
 import WindowDimension from '../WindowDimension';
+import React, {useState,useEffect} from 'react';
+import "react-toastify/dist/ReactToastify.css";
 import { AsyncStorage } from 'AsyncStorage';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {Link } from 'react-router-dom';
 import axios from 'axios';
-import BaseUrl from './GettingURLTwo.js';
+
 const AssignmentTypeTable = () => {
     const { height, width } = WindowDimension();
   
@@ -28,7 +28,7 @@ const AssignmentTypeTable = () => {
     }
   
     const gettingAssignmentType = (token)=>{
-      axios.get(`${BaseUrl}assignmenttype/getassignmenttypes`,{
+      axios.get(`${process.env.REACT_APP_BASE_URL}assignmenttype/getassignmenttypes`,{
         headers:{
           Authorization:token
         }
@@ -38,14 +38,15 @@ const AssignmentTypeTable = () => {
   
       })
       .catch((error)=>{
-        console.log(error);
+        toast.warning("Error Occured !")
+
       })
     }
   const deleteBottomServices = (id)=>{
     const delObj = {
       id:id
     }
-    axios.post(`${BaseUrl}assignmenttype/deleteassignmenttype`,delObj,{
+    axios.post(`${process.env.REACT_APP_BASE_URL}assignmenttype/deleteassignmenttype`,delObj,{
       headers:{
         Authorization:paringToken
       }
@@ -55,10 +56,10 @@ const AssignmentTypeTable = () => {
       setInterval(() => {
         window.location.reload(true)
       }, 1000);
-      console.log(res.data)
     })
     .catch((error)=>{
-      console.log(error)
+      toast.warning("Error Occured !")
+
     })
   }
   

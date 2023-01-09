@@ -1,43 +1,40 @@
 import React,{useState, useEffect} from 'react';
-import WindowDimension from '../WindowDimension.jsx';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AsyncStorage } from 'AsyncStorage';
 import {Link } from 'react-router-dom';
-import BaseURL from './GettingURLTwo.js';
+import { toast } from "react-toastify";
 import axios from 'axios';
 
 const FaqWebTable = () => {
-    const { height, width } = WindowDimension();
     const[faqs, setFaqs] = useState([]);
     const[faqToken , setFaqToken] = useState();
-    const SetLocalLogin= async ()=>{
-        try{
-          let userTOKEN = await AsyncStorage.getItem('token');
-          let parsed = JSON.parse(userTOKEN);
+    // const SetLocalLogin= async ()=>{
+    //     try{
+    //       let userTOKEN = await AsyncStorage.getItem('token');
+    //       let parsed = JSON.parse(userTOKEN);
     
-          if(parsed !== null){
+    //       if(parsed !== null){
           
-             gettingFaqs(parsed)
-             setFaqToken(parsed)
-          }
-        }catch{
-            return null;
-        }
-      }
+    //          gettingFaqs(parsed)
+    //          setFaqToken(parsed)
+    //       }
+    //     }catch{
+    //         return null;
+    //     }
+    //   }
       const gettingFaqs = ()=>{
-        axios.get(`${BaseURL}fetchFaqweb`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}fetchFaqweb`)
         .then((res)=>{
             setFaqs(res.data)
     
         })
         .catch((error)=>{
-          console.log(error);
+          toast.warning("Error Occured !")
         })
       }
 
       const deleteFaq = (id)=>{
-        axios.post(`${BaseURL}deleteFaqweb/${id}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}deleteFaqweb/${id}`)
         .then((res)=>{
             setInterval(() => {
                 toast.error("Deleted Successfully")
@@ -45,12 +42,13 @@ const FaqWebTable = () => {
             }, 1500);
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
+
         })
 
       }
       useEffect(() => {
-        SetLocalLogin()
+        gettingFaqs()
       }, [])
     
   return (

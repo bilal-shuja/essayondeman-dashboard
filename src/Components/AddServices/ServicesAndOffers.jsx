@@ -1,9 +1,8 @@
-import React from 'react';
-import {Link } from 'react-router-dom';
 import manageBlog from '../../Images/manageBlogs.svg';
 import manageFaq from '../../Images/manageFaq.svg';
 import avtG from '../../Images/avtG.svg';
-import avtY from '../../Images/avtY.svg';
+import {Link } from 'react-router-dom';
+import React from 'react';
 
 
 const ServicesAndOffers = () => {

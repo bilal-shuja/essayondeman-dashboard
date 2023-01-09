@@ -1,45 +1,39 @@
-import React, {useState,useEffect} from 'react';
 import WindowDimension from '../WindowDimension';
-import { AsyncStorage } from 'AsyncStorage';
-import { toast } from "react-toastify";
+import React, {useState,useEffect} from 'react';
 import "react-toastify/dist/ReactToastify.css";
+import { AsyncStorage } from 'AsyncStorage';
 import {Link } from 'react-router-dom';
+import { toast } from "react-toastify";
 import axios from 'axios';
-import BaseUrl from './GettingURL.js';
+
 const WritersTable = () => {
     const { height, width } = WindowDimension();
   
     const[getWriters, setWriters] = useState([])   
-     const[paringToken ,setParsingToken] = useState()
   
-    const SetLocalLogin= async ()=>{
-        try{
-          let userTOKEN = await AsyncStorage.getItem('token');
-          let parsed = JSON.parse(userTOKEN);
+    // const SetLocalLogin= async ()=>{
+    //     try{
+    //       let userTOKEN = await AsyncStorage.getItem('token');
+    //       let parsed = JSON.parse(userTOKEN);
     
-          if(parsed !== null){
+    //       if(parsed !== null){
           
-            gettingWriters(parsed)
-            setParsingToken(parsed)
 
-          }
-        }catch{
-            return null;
-        }
-      }
 
-      const gettingWriters = (token)=>{
-        axios.get(`${BaseUrl}writer/getwriters`,{
-          headers:{
-            Authorization:token
-          }
-        })
+    //       }
+    //     }catch{
+    //         return null;
+    //     }
+    //   }
+
+      const gettingWriters = ()=>{
+        axios.get(`${process.env.REACT_APP_BASE_URL}fetchwriter`)
         .then((res)=>{
-            setWriters(res.data.data)
+            setWriters(res.data)
     
         })
         .catch((error)=>{
-          console.log(error);
+          toast.warning("Error Occured !")
         })
       }
 
@@ -47,25 +41,20 @@ const WritersTable = () => {
     const delObj = {
       id:id
     }
-    axios.post(`${BaseUrl}writer/deletewriter`,delObj,{
-      headers:{
-        Authorization:paringToken
-      }
-    })
+    axios.post(`${process.env.REACT_APP_BASE_URL}writer/deletewriter`,delObj)
     .then((res)=>{
       toast.error("Deleted Successfully")
       setInterval(() => {
         window.location.reload(true)
       }, 1000);
-      console.log(res.data)
     })
     .catch((error)=>{
-      console.log(error)
+      toast.warning("Error Occured !")
     })
   }
   
     useEffect(() => {
-      SetLocalLogin()
+      gettingWriters()
     }, [])
     
   return (
@@ -100,7 +89,7 @@ const WritersTable = () => {
                            {items.writer_name}
                         </td>
                         <td>
-                            <img src={items.avatar} alt="" width={60}/>
+                            <img src={`${process.env.REACT_APP_IMG_URL}${items.avatar}`} alt="" width={60}/>
                         </td>
                         <td>
                         <Link to="/UpdateWriters" state={{id:items.id}} className="btn btn-primary btn-sm">

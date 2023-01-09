@@ -12,8 +12,6 @@ const WindowDimension = () => {
    const  handleResize = ()=> {
     setWindowDimensions(getWindowDimensions());
 }
-    console.log('width'+windowDimensions.width);
-    console.log('height'+windowDimensions.height);
 
    useEffect(() => {
     handleResize();

@@ -1,10 +1,11 @@
-import React,{useState} from 'react';
 import {Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import BaseUrl from './GettingURL.js';
 import GettingToken from './GettingToken.js';
+import { toast } from "react-toastify";
+import React,{useState} from 'react';
+import axios from 'axios';
+
+
 const UpdateWriters = () => {
     const token = GettingToken();
     const location = useLocation();
@@ -60,7 +61,7 @@ const UpdateWriters = () => {
           num_of_reviews:writerData.Reviews,
           total_orders:writerData.totalOrder
         }
-        axios.post(`${BaseUrl}writer/updatewriter`,writersObj,{
+        axios.post(`${process.env.REACT_APP_BASE_URL}writer/updatewriter`,writersObj,{
           headers:{
             Authorization:token
           }
@@ -78,7 +79,6 @@ const UpdateWriters = () => {
         .catch(
           error =>{
             toast.warning("Error Occured !")
-            console.log(error)
           }
         )
     

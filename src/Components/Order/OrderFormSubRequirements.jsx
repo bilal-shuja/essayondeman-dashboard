@@ -1,10 +1,10 @@
-import React,{useState,useCallback} from 'react';
-import {Link } from 'react-router-dom';
-import {useDropzone} from 'react-dropzone'
-import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw } from "draft-js";
+import React,{useState,useCallback} from 'react';
+import { Editor } from "react-draft-wysiwyg";
+import {useDropzone} from 'react-dropzone';
 import draftToHtml from 'draftjs-to-html';
+import {Link } from 'react-router-dom';
 
 
 const OrderFormSubRequirements = ({hide}) => {
@@ -36,7 +36,6 @@ const OrderFormSubRequirements = ({hide}) => {
 
         console.log(Instructions)
     }
-    console.log(file)
 
     const delFile = (index)=>{
         setFile((preState) => {

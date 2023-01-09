@@ -1,16 +1,17 @@
-import React,{useState, useEffect} from 'react';
 import WindowDimension from '../WindowDimension.jsx';
-import { toast } from "react-toastify";
+import React,{useState, useEffect} from 'react';
 import "react-toastify/dist/ReactToastify.css";
 import { AsyncStorage } from 'AsyncStorage';
+import { toast } from "react-toastify";
 import {Link } from 'react-router-dom';
-import BaseUrl from './GettingURLTwo.js';
 import axios from 'axios';
 
 const PageFaqManageTable = () => {
     const { height, width } = WindowDimension();
-    const[faqs, setFaqs] = useState([]);
     const[faqToken , setFaqToken] = useState();
+    const[faqs, setFaqs] = useState([]);
+
+
     const SetLocalLogin= async ()=>{
         try{
           let userTOKEN = await AsyncStorage.getItem('token');
@@ -26,19 +27,19 @@ const PageFaqManageTable = () => {
         }
       }
       const gettingFaqs = ()=>{
-        axios.get(`${BaseUrl}fetchPagefaq`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}fetchPagefaq`)
         .then((res)=>{
             setFaqs(res.data)
     
         })
         .catch((error)=>{
-          console.log(error);
+          toast.warning("Error Occured !")
         })
       }
 
       const deleteFaq = (id)=>{
      
-        axios.post(`${BaseUrl}deletePagefaq/${id}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}deletePagefaq/${id}`)
         .then((res)=>{
           toast.error("Deleted Successfully")
           setInterval(() => {
@@ -46,12 +47,12 @@ const PageFaqManageTable = () => {
           }, 1500)
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
         })
 
       }
       useEffect(() => {
-        SetLocalLogin()
+        gettingFaqs()
       }, [])
   return (
     <>

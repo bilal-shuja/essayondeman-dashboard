@@ -1,42 +1,38 @@
-import React,{useState, useEffect} from 'react';
 import WindowDimension from '../WindowDimension.jsx';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import React,{useState, useEffect} from 'react';
 import { AsyncStorage } from 'AsyncStorage';
+import { toast } from "react-toastify";
 import {Link } from 'react-router-dom';
-import BaseUrl from './GettingURLTwo.js';
 import axios from 'axios';
 
 const FaqManageTable = () => {
     const { height, width } = WindowDimension();
-    const[faqs, setFaqs] = useState([]);
     const[faqToken , setFaqToken] = useState();
-    const SetLocalLogin= async ()=>{
-        try{
-          let userTOKEN = await AsyncStorage.getItem('token');
-          let parsed = JSON.parse(userTOKEN);
+    const[faqs, setFaqs] = useState([]);
+
+    // const SetLocalLogin= async ()=>{
+    //     try{
+    //       let userTOKEN = await AsyncStorage.getItem('token');
+    //       let parsed = JSON.parse(userTOKEN);
     
-          if(parsed !== null){
+    //       if(parsed !== null){
           
-             gettingFaqs(parsed)
-             setFaqToken(parsed)
-          }
-        }catch{
-            return null;
-        }
-      }
-      const gettingFaqs = (token)=>{
-        axios.get(`${BaseUrl}faqs/getfaqs`,{
-          headers:{
-            Authorization:token
-          }
-        })
+    //          gettingFaqs(parsed)
+    //          setFaqToken(parsed)
+    //       }
+    //     }catch{
+    //         return null;
+    //     }
+    //   }
+      const gettingFaqs = ()=>{
+        axios.get(`${process.env.REACT_APP_BASE_URL}fetchfaq`)
         .then((res)=>{
-            setFaqs(res.data.data)
+            setFaqs(res.data)
     
         })
         .catch((error)=>{
-          console.log(error);
+          toast.warning("Error Occured !")
         })
       }
 
@@ -44,7 +40,7 @@ const FaqManageTable = () => {
         const delObj = {
           id:id
         }
-        axios.post(`${BaseUrl}faqs/deletefaq`,delObj,{
+        axios.post(`${process.env.REACT_APP_BASE_URL}faqs/deletefaq`,delObj,{
           headers:{
             Authorization:faqToken
           }
@@ -54,15 +50,14 @@ const FaqManageTable = () => {
           setInterval(() => {
             window.location.reload(true)
           }, 1500);
-          console.log(res.data)
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
         })
 
       }
       useEffect(() => {
-        SetLocalLogin()
+        gettingFaqs()
       }, [])
     
   return (

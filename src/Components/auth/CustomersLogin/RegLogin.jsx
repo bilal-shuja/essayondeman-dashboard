@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import BaseUrl from './GettingURL.js'
+import { toast } from "react-toastify";
+import {Link} from 'react-router-dom';
+import React, {useState} from 'react';
 import axios from 'axios';
 toast.configure();
-
 
 const RegLogin = () => {
   const [profileImage, setProfileImage] = useState();
@@ -43,7 +41,7 @@ const RegLogin = () => {
         
 })
   }
-const submitReg = (e)=>{
+const submitReg = (e)=>{ 
   e.preventDefault();
   const regObj = {
     username:reg.username,
@@ -52,7 +50,7 @@ const submitReg = (e)=>{
     password_confirmation:reg.password,
     role_id:"admin"
   }
-  axios.post(`${BaseUrl}register`,regObj)
+  axios.post(`${process.env.REACT_APP_BASE_URL}register`,regObj)
   .then(res =>{
     toast.info("Successfully Registered!")
   }
@@ -60,7 +58,6 @@ const submitReg = (e)=>{
   .catch(
     error =>{
       toast.warning("Error Occurred !")
-      console.log(error)
     }
   )
 

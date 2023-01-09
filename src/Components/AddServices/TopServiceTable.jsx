@@ -1,17 +1,17 @@
-import React, {useState,useEffect} from 'react';
 import WindowDimension from '../WindowDimension';
-import { AsyncStorage } from 'AsyncStorage';
-import { toast } from "react-toastify";
+import React, {useState,useEffect} from 'react';
 import "react-toastify/dist/ReactToastify.css";
+import { AsyncStorage } from 'AsyncStorage';
 import {Link } from 'react-router-dom';
+import { toast } from "react-toastify";
 import axios from 'axios';
-import BaseUrl from './GettingURLTwo.js';
+
 const TopServiceTable = () => {
     
     const { height, width } = WindowDimension();
   
-  const[getTopService, setTopService] = useState([])
-  const[paringToken ,setParsingToken] = useState()
+  const[getTopService, setTopService] = useState([]);
+  const[paringToken ,setParsingToken] = useState();
 
   const SetLocalLogin= async ()=>{
     try{
@@ -29,7 +29,7 @@ const TopServiceTable = () => {
   }
 
   const gettingTopServices = (token)=>{
-    axios.get(`${BaseUrl}topservices/gettopservices`,{
+    axios.get(`${process.env.REACT_APP_BASE_URL}topservices/gettopservices`,{
       headers:{
         Authorization:token
       }
@@ -39,14 +39,15 @@ const TopServiceTable = () => {
 
     })
     .catch((error)=>{
-      console.log(error);
+      toast.warning("Error Occured !")
+
     })
   }
 const deleteTopService = (id)=>{
   const delObj = {
     id:id
   }
-  axios.post(`${BaseUrl}topservices/deletetopservice`,delObj,{
+  axios.post(`${process.env.REACT_APP_BASE_URL}topservices/deletetopservice`,delObj,{
     headers:{
       Authorization:paringToken
     }
@@ -56,10 +57,9 @@ const deleteTopService = (id)=>{
     setInterval(() => {
       window.location.reload(true)
     }, 1000);
-    console.log(res.data)
   })
   .catch((error)=>{
-    console.log(error)
+    toast.warning("Error Occured !")
   })
 }
 

@@ -1,10 +1,9 @@
-import React,{useState} from 'react';
-import {Link } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import BaseUrl from './GettingURL.js';
 import GettingToken from './GettingToken.js';
+import { toast } from "react-toastify";
+import {Link } from 'react-router-dom';
+import React,{useState} from 'react';
+import axios from 'axios';
 
 const AddWritersForm = () => {
   const token = GettingToken();
@@ -57,7 +56,7 @@ const AddWritersForm = () => {
           num_of_reviews:writerData.Reviews,
           total_orders:writerData.totalOrder
         }
-        axios.post(`${BaseUrl}writer/addwriter`,writersObj,{
+        axios.post(`${process.env.REACT_APP_BASE_URL}writer/addwriter`,writersObj,{
           headers:{
             Authorization:token
           }
@@ -75,7 +74,6 @@ const AddWritersForm = () => {
         .catch(
           error =>{
             toast.warning("Error Occured !")
-            console.log(error)
           }
         )
     

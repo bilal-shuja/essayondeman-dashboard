@@ -1,13 +1,12 @@
-import React,{useState} from 'react';
-import {Link } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import BaseUrl from './GettingURLTwo.js';
-import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw } from "draft-js";
+import "react-toastify/dist/ReactToastify.css";
+import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from 'draftjs-to-html';
+import { toast } from "react-toastify";
+import {Link } from 'react-router-dom';
+import React,{useState} from 'react';
+import axios from 'axios';
 
 
 const BlogManagForm = () => {
@@ -25,46 +24,23 @@ const BlogManagForm = () => {
     setBlogDetails({ ...blogDetails, [e.target.name]: e.target.value });
   };
 
-//   const uploadImage = async (e)=>{
-//     const file =e.target.files[0]; 
-//     const base64 = await convertBase64(file);
-//     setProfileImage(base64);
-//   }
-
-
-//   const convertBase64 = (file)=>{
-//       return new Promise((resolve,reject)=>{
-//         const fileReader = new FileReader();
-//         fileReader.readAsDataURL(file);
-
-//         fileReader.onload= ()=>{
-//           resolve(fileReader.result)
-//         };
-        
-//         fileReader.onerror=(error)=>{
-//           reject(error)
-//         };
-
-        
-// })
-//   }
 
 
   const blogContent = draftToHtml(convertToRaw(editorState.getCurrentContent()))
   const submitBlogs = ()=>{
     var formdata = new FormData();
-formdata.append("role_id", "4");
-formdata.append("auther_name", blogDetails.autherName);
-formdata.append("auther_image", autherImg);
-formdata.append("title", blogDetails.title);
-formdata.append("permalink", "Something");
-formdata.append("category", blogDetails.category);
-formdata.append("content", blogContent);
-formdata.append("image", blogImage);
+    formdata.append("role_id", "4");
+    formdata.append("auther_name", blogDetails.autherName);
+    formdata.append("auther_image", autherImg);
+    formdata.append("title", blogDetails.title);
+    formdata.append("permalink", "Something");
+    formdata.append("category", blogDetails.category);
+    formdata.append("content", blogContent);
+    formdata.append("image", blogImage);
 
 
 
-    axios.post(`${BaseUrl}postblog`,formdata)
+    axios.post(`${process.env.REACT_APP_BASE_URL}postblog`,formdata)
     .then(res =>{
       toast.info("Blog Posted!")
       console.log(formdata)
@@ -74,7 +50,6 @@ formdata.append("image", blogImage);
     .catch(
       error =>{
         toast.warning("Error Occured !")
-        console.log(error)
       }
     )
 

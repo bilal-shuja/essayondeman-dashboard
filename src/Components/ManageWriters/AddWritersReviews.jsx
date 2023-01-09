@@ -1,11 +1,9 @@
 import React,{useState,useEffect} from 'react';
-import {Link } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GettingToken from './GettingToken.js';
 import { AsyncStorage } from 'AsyncStorage';
-import BaseUrl from './GettingURL.js';
+import {Link } from 'react-router-dom';
+import { toast } from "react-toastify";
+import axios from 'axios';
 
 const AddWritersReviews = () => {
     const[token , setToken] = useState()
@@ -39,7 +37,7 @@ const AddWritersReviews = () => {
 
       const gettingWriter = (t)=>{
 
-        axios.get(`${BaseUrl}writer/getwriters`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}writer/getwriters`,{
           headers:{
             Authorization:t
           }
@@ -49,7 +47,7 @@ const AddWritersReviews = () => {
     
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
         })
   
   
@@ -77,7 +75,7 @@ const AddWritersReviews = () => {
           rating:writerData.writerRating,
           feedback:writerData.Reviews,
         }
-        axios.post(`${BaseUrl}writerdummy/addwriterdummyreview`,writersObj,{
+        axios.post(`${process.env.REACT_APP_BASE_URL}writerdummy/addwriterdummyreview`,writersObj,{
           headers:{
             Authorization:token
           }
@@ -95,7 +93,6 @@ const AddWritersReviews = () => {
         .catch(
           error =>{
             toast.warning("Error Occured !")
-            console.log(error)
           }
         )
 
@@ -105,7 +102,7 @@ const AddWritersReviews = () => {
       const getOrderData = (e)=>{
           switch (e) {
               case  "OBT":
-                axios.get(`${BaseUrl}contenttype/getcontenttypes`,{
+                axios.get(`${process.env.REACT_APP_BASE_URL}contenttype/getcontenttypes`,{
                     headers:{
                       Authorization:token
                     }
@@ -115,12 +112,12 @@ const AddWritersReviews = () => {
               
                   })
                   .catch((error)=>{
-                    console.log(error)
+                        toast.warning("Error Occured !")
                   })
                   break;
 
                   case "OBS":
-                    axios.get(`${BaseUrl}assignmenttype/getassignmenttypes`,{
+                    axios.get(`${process.env.REACT_APP_BASE_URL}assignmenttype/getassignmenttypes`,{
                         headers:{
                           Authorization:token
                         }
@@ -130,14 +127,15 @@ const AddWritersReviews = () => {
                   
                       })
                       .catch((error)=>{
-                        console.log(error)
+                          toast.warning("Error Occured !")
                       })
 
                       break;
           
-              default:
-                console.log("No type found")
-                  break;
+                      default:
+                        toast.warning("No type found")
+                      
+                      break;
           }
         
       

@@ -1,25 +1,22 @@
-import React,{useState,useEffect} from 'react';
-import {Link,useLocation} from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GettingToken from '../GettingToken.js';
-import BaseUrl from './GettingURLTwo.js';
+import React,{useState,useEffect} from 'react';
 import { AsyncStorage } from 'AsyncStorage';
+import { toast } from "react-toastify";
+import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 
 const PagesContent = () => {
-  // const token = GettingToken();
   const [category,setCategory] = useState('0');
   const[getTopServices, setTopServices] = useState([])
   const [serve_name,setServeName]=useState("");
-  const[token , setToken] = useState()
+  const[token , setToken] = useState();
+
   const GetToken= async ()=>{
     try{
       let token = await AsyncStorage.getItem('token');
       let parsed = JSON.parse(token);
       if(parsed !== null){
-        // getServices(parsed);
         setToken(parsed)
       }
     }catch{
@@ -30,7 +27,6 @@ const PagesContent = () => {
 
   const setCategoryOption = (e)=>{
     setCategory(e.target.value);
-    // getAllServices(e.target.value);
 
   }
   const setServiceOpt = (e)=>{
@@ -38,90 +34,6 @@ const PagesContent = () => {
 
   }
   
-  // const getServices = (t)=>{
-      
-      
-  //   axios.get(`${BaseUrl}topservices/gettopservices`,{
-  //     headers:{
-  //       Authorization:t
-  //     }
-  //   })
-  //   .then((res)=>{
-  //     setTopServices(res.data.data)
-
-  //   })
-  //   .catch((error)=>{
-  //     console.log(error)
-  //   })
-
-
-  // }
-  // const getAllServices = (e)=>{
-  //   if(e === "1"){
-  //     axios.get(`${BaseUrl}topservices/gettopservices`,{
-  //       headers:{
-  //         Authorization:token
-  //       }
-  //     })
-  //     .then((res)=>{
-  //       setTopServices(res.data.data)
-  
-  //     })
-  //     .catch((error)=>{
-  //       console.log(error)
-  //     })
-
-
-  //   }
-    
-  //   else if(e === "2"){
-  //     axios.get(`${BaseUrl}bottomservices/getbottomservices`,{
-  //       headers:{
-  //         Authorization:token
-  //       }
-  //     })
-  //     .then((res)=>{
-  //       setTopServices(res.data.data)
-  
-  //     })
-  //     .catch((error)=>{
-  //       console.log(error)
-  //     })
-
-  //   }
-
-  //   else if(e === "3"){
-  //     axios.get(`${BaseUrl}offers/gettopoffers`,{
-  //       headers:{
-  //         Authorization:token
-  //       }
-  //     })
-  //     .then((res)=>{
-  //       setTopServices(res.data.data)
-  
-  //     })
-  //     .catch((error)=>{
-  //       console.log(error)
-  //     })
-  //   }
-
-  //   else if(e === "4"){
-  //     axios.get(`${BaseUrl}offers/getbottomoffers`,{
-  //       headers:{
-  //         Authorization:token
-  //       }
-  //     })
-  //     .then((res)=>{
-  //       setTopServices(res.data.data)
-  
-  //     })
-  //     .catch((error)=>{
-  //       console.log(error)
-  //     })
-  //   }
-    
-  // }
-
     const [pageContent, setPageContent] = useState({
  
       title_One:'',
@@ -171,28 +83,24 @@ const PagesContent = () => {
         protitle_3:pageContent.protoTitle_Three,
         protosub_3:pageContent.protoSub_Three
       }
-      axios.post(`${BaseUrl}postHomepage`,HomePageContent)
+      axios.post(`${process.env.REACT_APP_BASE_URL}postHomepage`,HomePageContent)
       .then(res =>{
           toast.info("Home Page Content Posted!")
         setInterval(() => {
           window.location.reload(true);
         }, 1500);
-     
-       
         
       }
       )
       .catch(
         error =>{
           toast.warning("Error Occured !")
-          console.log(error)
         }
       )
 
     }
     
     useEffect(() => {
-      // getServices()
       GetToken()      
     }, [])
   return (

@@ -1,27 +1,21 @@
-import React,{useState, useEffect} from 'react';
 import {Link,useLocation} from 'react-router-dom';
-import axios from 'axios';
-import { toast } from "react-toastify";
+import React,{useState, useEffect} from 'react';
 import "react-toastify/dist/ReactToastify.css";
-import GettingToken from '../GettingToken.js';
-import BaseUrl from './GettingURLTwo.js';
+import GettingToken from './GettingToken.js';
+import { toast } from "react-toastify";
+import axios from 'axios';
 
 const UpdateServiceAndOffers = () => {
   const token = GettingToken();
   const location = useLocation();
   const { id,Headers, Input, staticID } = location.state;
   const StaticID = staticID;
-    const ID = id;
-    const headers = Headers;
-    const input = Input;
-
-
-
-
-
+  const ID = id;
+  const headers = Headers;
+  const input = Input;
+  
   const [services, setServices] = useState();
-
-const[url , setURL] = useState();
+  const[url , setURL] = useState();
 
 
 
@@ -30,7 +24,7 @@ const[url , setURL] = useState();
         id:ID,
         name:services
       }
-      axios.post(`${BaseUrl}${url}`,serviceObj,{
+      axios.post(`${process.env.REACT_APP_BASE_URL}${url}`,serviceObj,{
       headers:{
         Authorization:token
       }
@@ -47,7 +41,6 @@ const[url , setURL] = useState();
     .catch(
       error =>{
         toast.warning("Error Occured !")
-        console.log(error)
       }
     )
     

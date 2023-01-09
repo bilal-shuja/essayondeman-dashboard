@@ -4,10 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AsyncStorage } from 'AsyncStorage';
 import CustomerLogin from '../src/Components/auth/CustomersLogin/Login.jsx';
 import CustomerReg from '../src/Components/auth/CustomersLogin/RegLogin.jsx';
-import SideBar from './Components/SideBar.jsx';
-import Header from './Components/Header.jsx';
-import UserProfile from './Components/UserProfile.jsx';
-import ControlContent from './Components/ControlContent.jsx';
+import SideBar from './Components/layout/SideBar.jsx';
+import Header from './Components/layout/Header.jsx';
+import UserProfile from './Components/User/UserProfile.jsx';
+import ControlContent from './Components/ContentControl/ControlContent.jsx';
 import BlogManageFrom from './Components/Blogs/BlogManagForm.jsx';
 import UpdateBlogs from './Components/Blogs/UpdateBlogs.jsx';
 import BlogManageTable from './Components/Blogs/BlogManageTable.jsx';
@@ -58,7 +58,7 @@ import UpdateWritersContent from './Components/ManageWriters/UpdateWritersConten
 import CreateOrder from './Components/Order/CreateOrderForm.jsx';
 import OrderFormSubReq from './Components/Order/OrderFormSubRequirements.jsx';
 
-import Footer from './Components/Footer.jsx';
+import Footer from './Components/layout/Footer.jsx';
 
 
 function App() {

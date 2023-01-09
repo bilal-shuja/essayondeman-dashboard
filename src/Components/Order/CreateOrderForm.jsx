@@ -1,9 +1,10 @@
-import React,{useState,useEffect} from 'react';
-import {Link } from 'react-router-dom';
-import axios from 'axios';
-import { AsyncStorage } from 'AsyncStorage';
-import BaseUrl from './GettingURL.js';
 import OrderFormSub from './OrderFormSubRequirements';
+import "react-toastify/dist/ReactToastify.css";
+import React,{useState,useEffect} from 'react';
+import { AsyncStorage } from 'AsyncStorage';
+import { toast } from "react-toastify";
+import axios from 'axios';
+
 
 const CreateOrderForm = () => {
 
@@ -89,7 +90,7 @@ const CreateOrderForm = () => {
  
       }
       const gettingAssignType =(token)=>{
-        axios.get(`${BaseUrl}assignmenttype/getassignmenttypes`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}assignmenttype/getassignmenttypes`,{
             headers:{
               Authorization:token
             }
@@ -98,12 +99,13 @@ const CreateOrderForm = () => {
             setAssignType(res.data.data)      
           })
           .catch((error)=>{
-            console.log(error)
+            toast.warning("Error Occured !")
+
           })
       }
 
       const gettingContentType = (token)=>{
-        axios.get(`${BaseUrl}contenttype/getcontenttypes`,{
+        axios.get(`${process.env.REACT_APP_BASE_URL}contenttype/getcontenttypes`,{
           headers:{
             Authorization:token
           }
@@ -112,24 +114,24 @@ const CreateOrderForm = () => {
           setContentType(res.data.data)      
         })
         .catch((error)=>{
-          console.log(error)
+          toast.warning("Error Occured !")
         })
 
       }
 
-      const showData = ()=>{
+      // const showData = ()=>{
         
-        console.log(getAssignData);
-        console.log(getContentData);
-        console.log(getLang);
-        console.log(getEdu);
-        console.log(promoCode);
-        console.log(pages);
-        console.log(words);
-        console.log(lineSpace);
-        console.log(getTime);
-        console.log(getDate);
-      }
+      //   console.log(getAssignData);
+      //   console.log(getContentData);
+      //   console.log(getLang);
+      //   console.log(getEdu);
+      //   console.log(promoCode);
+      //   console.log(pages);
+      //   console.log(words);
+      //   console.log(lineSpace);
+      //   console.log(getTime);
+      //   console.log(getDate);
+      // }
    
 
 
